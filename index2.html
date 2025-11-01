@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tech Odyssey – IIIT Dharwad</title>
+        <script src="https://unpkg.com/react-icons@4.12.0/lib/index.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;900&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background: #0a0a0a;
+            color: #e0e0e0;
+            line-height: 1.7;
+            font-size: 15px;
+        }
+
+        .email-container {
+            max-width: 640px;
+            margin: 20px auto;
+            background: #111;
+            border: 1px solid #222;
+            border-radius: 16px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+        }
+
+        /* Code symbols floating behind content */
+        .code-bg {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.07;
+        }
+
+        .code-symbol {
+            position: absolute;
+            font-family: 'Courier New', monospace;
+            font-size: 2.2rem;
+            font-weight: bold;
+            color: #ff6b00;
+            animation: float 25s infinite linear;
+        }
+
+        .code-symbol:nth-child(1) { top: 10%; left: 5%; animation-delay: 0s; }
+        .code-symbol:nth-child(2) { top: 25%; left: 80%; animation-delay: 3s; }
+        .code-symbol:nth-child(3) { top: 60%; left: 15%; animation-delay: 7s; }
+        .code-symbol:nth-child(4) { top: 80%; left: 70%; animation-delay: 12s; }
+        .code-symbol:nth-child(5) { top: 40%; left: 45%; animation-delay: 18s; }
+
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0.05; }
+            50% { opacity: 0.1; }
+            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0.05; }
+        }
+
+        /* Header – Monochrome with orange accent */
+        .header {
+            background: #000;
+            padding: 50px 40px;
+            text-align: center;
+            position: relative;
+            border-bottom: 4px solid #ff6b00;
+        }
+
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            height: 48px;
+            opacity: 0.9;
+        }
+
+        .header h1 {
+            font-size: 48px;
+            font-weight: 900;
+            color: #fff;
+            letter-spacing: -1px;
+            margin: 12px 0;
+            text-transform: uppercase;
+            position: relative;
+        }
+
+        .header h1::before {
+            content: '<';
+            color: #ff6b00;
+            font-weight: 700;
+            margin-right: 8px;
+        }
+
+        .header h1::after {
+            content: '/>';
+            color: #ff6b00;
+            font-weight: 700;
+            margin-left: 8px;
+        }
+
+        .tagline {
+            font-size: 15px;
+            color: #ff6b00;
+            font-weight: 700;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+        }
+
+        /* Content */
+        .content {
+            padding: 40px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .intro {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .intro p {
+            font-size: 17px;
+            color: #ccc;
+            max-width: 560px;
+            margin: 0 auto 16px;
+        }
+
+        .highlight {
+            color: #ff6b00;
+            font-weight: 700;
+        }
+
+        .highlight-purple {
+            color: #b366ff;
+            font-weight: 700;
+        }
+
+        /* Section Title */
+        .section-title {
+            font-size: 22px;
+            font-weight: 900;
+            color: #fff;
+            margin: 40px 0 20px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -12px;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: #ff6b00;
+        }
+
+        .section-title.purple::after {
+            background: #b366ff;
+        }
+
+        /* Rounds */
+        .round {
+            background: #1a1a1a;
+            border-left: 5px solid #ff6b00;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 0 8px 8px 0;
+            position: relative;
+            transition: transform 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .round.purple {
+            border-left: 5px solid #b366ff;
+        }
+
+        .round:hover {
+            transform: translateX(8px);
+        }
+
+        .round-num {
+            position: absolute;
+            top: -24px;
+            left: 0px;
+            background: #ff6b00;
+            color: #000;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 16px;
+        }
+
+        .round.purple .round-num {
+            background: #b366ff;
+        }
+
+        .round-title {
+            font-size: 19px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding-top: 15px;
+        }
+
+        .round-desc {
+            font-size: 14.5px;
+            color: #bbb;
+        }
+
+        /* Info Grid */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin: 30px 0;
+        }
+
+        .info-card {
+            background: #1a1a1a;
+            padding: 18px;
+            border-radius: 8px;
+            border: 1px solid #333;
+        }
+
+        .info-card.purple {
+            border-left: 3px solid #b366ff;
+        }
+
+        .info-label {
+            font-size: 12px;
+            color: #ff6b00;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .info-card.purple .info-label {
+            color: #b366ff;
+        }
+
+        .info-value {
+            font-size: 18px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        /* Domains */
+        .domains-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .domain {
+            background: #222;
+            color: #ff6b00;
+            padding: 10px 8px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            text-align: center;
+            border: 1px solid #333;
+            transition: all 0.2s;
+            min-width: 100px;
+        }
+
+        .domain:nth-child(even) {
+            color: #b366ff;
+            border-color: #555;
+        }
+
+        .domain:hover {
+            background: #ff6b00;
+            color: #000;
+        }
+
+        .domain:nth-child(even):hover {
+            background: #b366ff;
+            color: #000;
+        }
+
+        /* Prizes */
+        .prize {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #1a1a1a;
+            padding: 16px 20px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            margin-top: 8px;
+            border-left: 4px solid #ff6b00;
+        }
+
+        .prize:nth-child(even) {
+            border-left: 4px solid #b366ff;
+        }
+
+        .prize-pos {
+            font-weight: 900;
+            color: #ff6b00;
+            font-size: 16px;
+        }
+
+        .prize:nth-child(even) .prize-pos {
+            color: #b366ff;
+        }
+
+        .prize-amount {
+            font-size: 20px;
+            font-weight: 900;
+            color: #fff;
+        }
+
+        .goodies {
+            background: #1a1a1a;
+            padding: 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            color: #aaa;
+            text-align: center;
+            margin-top: 16px;
+            border: 1px dashed #333;
+        }
+
+        /* CTA */
+        .cta {
+            text-align: center;
+            margin: 40px 0;
+        }
+
+        .btn {
+            display: inline-block;
+            background: #ff6b00;
+            color: #000;
+            padding: 16px 44px;
+            border-radius: 8px;
+            font-weight: 900;
+            font-size: 16px;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 0 #cc5500;
+            position: relative;
+            top: 0;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            top: 3px;
+            box-shadow: 0 3px 0 #cc5500;
+            background: #ff8c33;
+        }
+
+        .btn:active {
+            top: 6px;
+            box-shadow: none;
+        }
+
+        /* Footer */
+        .footer {
+            background: #000;
+            color: #888;
+            padding: 30px 40px;
+            text-align: center;
+            font-size: 13px;
+            border-top: 1px solid #222;
+        }
+
+        .footer strong {
+            color: #ff6b00;
+        }
+
+        .social {
+            margin-top: 16px;
+            font-weight: 600;
+        }
+
+        .tagline-footer {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #b366ff;
+            font-weight: 700;
+            letter-spacing: 2px;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .header { padding: 40px 20px; }
+            .header h1 { font-size: 36px; }
+            .content { padding: 30px 20px; }
+            .info-grid { grid-template-columns: 1fr; }
+            .domains-grid { justify-content: flex-start; }
+            .prize { flex-direction: column; text-align: center; gap: 8px; }
+            .logo-container { gap: 20px; }
+            .logo { height: 36px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+                <div class="code-bg">
+            <div class="code-symbol">&lt;/&gt;</div>
+            <div class="code-symbol">{ }</div>
+            <div class="code-symbol">[ ]</div>
+            <div class="code-symbol">&lt;&gt;</div>
+            <div class="code-symbol">(&nbsp;)</div>
+        </div>
+
+                <div class="header">
+            <div class="logo-container">
+                <img src="https://raw.githubusercontent.com/Meow-Codes/Resume-Analyser/main/public/iiit_logo2.png" alt="IIIT Dharwad" class="logo">
+                <img src="https://raw.githubusercontent.com/Meow-Codes/Resume-Analyser/main/public/iic_logo.png" alt="IIC" class="logo">
+            </div>
+            <div class="tagline">THINK | DEBUG | CONQUER</div>
+            <h1>TECH ODYSSEY</h1>
+            <p style="color:#b366ff; font-weight:600; margin-top:8px;">7th November • 10AM - 6 PM • IIIT Dharwad</p>
+        </div>
+
+                <div class="content">
+            <div class="intro">
+                <p><span class="highlight">Get Ready</span> for the Ultimate Multi-Round Engineering Challenge</p>
+                <p>Three rounds. Diverse domains. One goal: <span class="highlight-purple">Conquer</span>.</p>
+            </div>
+
+                        <div class="info-grid">
+                <div class="info-card">
+                    <div class="info-label"><span class="ri ri-team-fill"></span> Team Size</div>
+                    <div class="info-value">1–3 Members</div>
+                </div>
+                <div class="info-card purple">
+                    <div class="info-label"><span class="ri ri-calendar-event-fill"></span> Date</div>
+                    <div class="info-value">7th Nov 2025</div>
+                </div>
+                <div class="info-card">
+                    <div class="info-label"><span class="ri ri-trophy-fill"></span> Prizes</div>
+                    <div class="info-value">₹23,000+</div>
+                </div>
+                <div class="info-card purple">
+                    <div class="info-label"><span class="ri ri-timer-fill"></span> Register By</div>
+                    <div class="info-value">5th Nov, 11:59 PM</div>
+                </div>
+            </div>
+
+                        <div class="section-title">Event Structure</div>
+
+            <div class="round">
+                <div class="round-num">1</div>
+                <div class="round-title"><span class="ri ri-questionnaire-fill"></span> Trivia & Aptitude Test</div>
+                <div class="round-desc">50 questions across engineering domains. Accuracy + speed wins.</div>
+            </div>
+
+            <div class="round purple">
+                <div class="round-num">2</div>
+                <div class="round-title"><span class="ri ri-bug-fill"></span> Debugging & Logic Building</div>
+                <div class="round-desc">Choose one domain. Solve real logic and debugging challenges. Evaluation tailored to your field.</div>
+            </div>
+
+            <div class="round">
+                <div class="round-num">3</div>
+                <div class="round-title"><span class="ri ri-search-eye-fill"></span> Internet Treasure Hunt</div>
+                <div class="round-desc">Decode clues. Complete missions. Fastest team to go through all checkpoints wins max points.</div>
+            </div>
+
+                        <div class="section-title purple">Avaliable Domains (Round 2)</div>
+            <div class="domains-grid">
+                <div class="domain">Web Dev</div>
+                <div class="domain">App Dev</div>
+                <div class="domain">AI & ML</div>
+                <div class="domain">Cybersec</div>
+                <div class="domain">Blockchain</div>
+                <div class="domain">Quantum</div>
+                <div class="domain">Comp. Prog</div>
+            </div>
+
+                        <div class="section-title">Prizes Worth ₹23,000+</div>
+            <div class="prize">
+                <div class="prize-pos">1ST</div>
+                <div class="prize-amount">₹10,000</div>
+            </div>
+            <div class="prize">
+                <div class="prize-pos">2ND</div>
+                <div class="prize-amount">₹8,000</div>
+            </div>
+            <div class="prize">
+                <div class="prize-pos">3RD</div>
+                <div class="prize-amount">₹5,000</div>
+            </div>
+            <div class="goodies">
+                <strong>+ Exclusive T-shirts • Goodies • Domain Stickers</strong>
+            </div>
+
+                        <div class="info-card purple" style="margin-top:30px;">
+                <div class="info-label"><span class="ri ri-checkbox-circle-fill"></span> Prerequisites</div>
+                <div style="color:#ccc; font-size:14px; margin-top:8px;">
+                    • Basic Git & GitHub<br>
+                    • Bring your own laptop + charger
+                </div>
+            </div>
+
+                        <div class="cta">
+                <a href="https://forms.gle/7HQG9p1PtLCfE3R77" class="btn">Register Now</a>
+            </div>
+
+                        <div style="background:#1a1a1a; padding:20px; border-radius:8px; border:1px solid #333;">
+                <div style="color:#ff6b00; font-weight:700; margin-bottom:12px;">Why Join Tech Odyssey?</div>
+                <ul style="list-style:none; font-size:14px; color:#bbb;">
+                    <li style="margin:8px 0;"><span class="ri ri-code-s-slash-fill" style="color:#b366ff; margin-right:8px;"></span> Sharpen technical & logical skills</li>
+                    <li style="margin:8px 0;"><span class="ri ri-team-fill" style="color:#b366ff; margin-right:8px;"></span> Collaborate with top minds</li>
+                    <li style="margin:8px 0;"><span class="ri ri-gift-fill" style="color:#b366ff; margin-right:8px;"></span> Win cash + exclusive merch</li>
+                    <li style="margin:8px 0;"><span class="ri ri-fire-fill" style="color:#b366ff; margin-right:8px;"></span> Be part of Avinya 2025</li>
+                </ul>
+            </div>
+        </div>
+
+                <div class="footer">
+            <div><strong>Support:</strong> avinya-fest@iiitdwd.ac.in • msa@iiitdwd.ac.in • inquizitive@iiitdwd.ac.in</div>
+            <div><strong>Call:</strong> +91 9789880949</div>
+            <div class="social">Follow: <a href="https://www.instagram.com/msa_iiitdwd/" style="color: #b366ff; text-decoration: none; transition: color 0.3s ease;">@msa_iiitdwd</a> • <a href="https://www.instagram.com/inquizitive.iiitdwd/" style="color: #b366ff; text-decoration: none; transition: color 0.3s ease;">@inquizitive_iiitdwd</a></div>
+            <div class="tagline-footer">THINK. BUILD. SOLVE. CONQUER.</div>
+        </div>
+    </div>
+
+        <!-- <script>
+        // Replace ri-* with actual SVG inline if needed; here we use class-based fallback
+        document.querySelectorAll('[class*="ri-"]').forEach(el => {
+            const icon = el.className.match(/ri-([a-z-]+)/)[1];
+            const svgMap = {
+                'team-fill': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 11C14.2091 11 16 9.20914 16 7C16 4.79086 14.2091 3 12 3C9.79086 3 8 4.79086 8 7C8 9.20914 9.79086 11 12 11ZM6 21V17C6 14.7909 7.79086 13 10 13H14C16.2091 13 18 14.7909 18 17V21H20V17C20 13.6863 17.3137 11 14 11H10C6.68629 11 4 13.6863 4 17V21H6Z"></path></svg>',
+                'calendar-event-fill': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M17 3H21C21.5523 3 22 3.44772 22 4V20C22 20.5523 21.5523 21 21 21H3C2.44772 21 2 20.5523 2 20V4C2 3.44772 2.44772 3 3 3H7V1H9V3H15V1H17V3ZM15 5H9V7H7V5H4V9H20V5H17V7H15V5ZM20 11H4V19H20V11Z"></path></svg>',
+                'trophy-fill': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M13 17.1112V20H17V22H7V20H11V17.1112C7.50442 16.8048 5 14.074 5 11V4C5 2.89543 5.89543 2 7 2H17C18.1046 2 19 2.89543 19 4V11C19 14.074 16.4956 16.8048 13 17.1112ZM3 5H1V11C1 13.2091 2.79086 15 5 15V13C3.89543 13 3 12.1046 3 11V5ZM21 5H23V11C23 12.1046 22.1046 13 21 13V15C23.2091 15 25 13.2091 25 11V5Z"></path></svg>',
+                'timer-fill': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M17 3H21C21.5523 3 22 3.44772 22 4V20C22 20.5523 21.5523 21 21 21H3C2.44772 21 2 20.5523 2 20V4C2 3.44772 2.44772 3 3 3H7V1H9V3H15V1H17V3ZM4 9V19H20V9H4ZM13.5 11.5L16.4645 14.4645L15.0503 15.8787L12.5 13.3284V17H11V12H12.5V11.5Z"></path></svg>',
+                'questionnaire-fill': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M6.45455 5H18.5455C19.3536 5 20 5.64645 20 6.45455V17.5455C20 18.3536 19.3536 19 18.5455 19H6.45455C5.64645 19 5 18.3536 5 17.5455V6.45455C5 5.64645 5.64645 5 6.45455 5ZM7 7V17H17V7H7ZM9 9H15V11H9V9ZM9 13H13V15H9V13Z"></path></svg>',
+                'bug-fill': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M13.91 5.40713L15.6673 6.58295L16.1667 5.41605L18.5774 6.16029L17.4944 8.41191L19.5 9.5L18.5 11.5L16.1768 11.1633L15.3333 13H8.66667L7.82321 11.1633L5.5 11.5L4.5 9.5L6.50556 8.41191L5.42258 6.16029L7.83333 5.41605L8.33267 6.58295L10.09 5.40713C10.6727 3.87676 12.1954 3 14 3C16.7614 3 19 5.23858 19 8V9H5V8C5 6.19537 6.52268 4.67268 8.32731 4.09006L8.33333 4.089L10.09 5.40713ZM7 13H17C17 15.2091 15.2091 17 13 17H11C8.79086 17 7 15.2091 7 13Z"></path></svg>',
+                'search-eye-fill': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M18.0306 12.0306C18.8652 11.1961 19.5 10.0859 19.5 9C19.5 5.96243 17.0376 3.5 14 3.5C10.9624 3.5 8.5 5.96243 8.5 9C8.5 12.0376 10.9624 14.5 14 14.5C15.0859 14.5 16.1961 14.1348 17.0306 13.4694L20.5607 17L22 15.5607L18.4694 12.0306ZM17.5 9C17.5 10.933 15.933 12.5 14 12.5C12.067 12.5 10.5 10.933 10.5 9C10.5 7.067 12.067 5.5 14 5.5C15.933 5.5 17.5 7.067 17.5 9Z"></path></svg>',
+                'checkbox-circle-fill': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22ZM11.0024 16L18.0737 8.92893L16.6595 7.51472L11.0024 13.1716L8.17402 10.3431L6.75981 11.7574L11.0024 16Z"></path></svg>',
+                'code-s-slash-fill': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M24 12L18.3431 17.6568L16.9289 16.2426L21.1716 12L16.9289 7.75733L18.3431 6.34308L24 12ZM2.82843 12L7.07107 16.2426L5.65685 17.6568L0 12L5.65685 6.34308L7.07107 7.75733L2.82843 12Z"></path></svg>',
+                'gift-fill': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M9 6H15V8H9V6ZM19 11V21H5V11H3V9L6 8V4C6 2.89543 6.89543 2 8 2H16C17.1046 2 18 2.89543 18 4V8L21 9V11H19ZM8 4V8H16V4H8Z"></path></svg>',
+                'fire-fill': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12.0019 2C15.7319 2 18.0019 5.804 18.0019 8.5C18.0019 9.998 17.5019 11.278 16.5019 12.5C17.0019 13.5 16.5019 15.5 14.5019 17.5C13.5019 18.52000 12.5019 19.5 12.0019 20.5C11.5019 19.5 10.5019 18.5 9.50195 17.5C7.50195 15.5 7.00195 13.5 7.50195 12.5C6.50195 11.278 6.00195 9.998 6.00195 8.5C6.00195 5.804 8.27195 2 12.0019 2Z"></path></svg>'
+            };
+            if (svgMap[icon]) {
+                el.innerHTML = svgMap[icon];
+                el.style.display = 'inline-flex';
+                el.style.verticalAlign = 'middle';
+            }
+        });
+    </script> -->
+</body>
+</html>
